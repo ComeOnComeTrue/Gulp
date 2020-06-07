@@ -1,0 +1,186 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    body{
+        font-size: 12px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-position: center center;
+        overflow: hidden;
+        .wrapper{
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            padding-top: 60px;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 0.2);
+            .song-img {
+                position: relative;
+                width: 70%;
+                height: 0px;
+                // 根据父级占百分之七十，实现一个正方形
+                padding-top: 70%;
+                // 基于 box-sizing: border-box;
+                // border: 1px solid black;
+                margin: 0 auto;
+                .img-box {
+                    // 贴合父级
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    border-radius: 50%;
+                    background-color: #000;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    img{
+                        width: 75%;
+                        height: 75%;
+                        border-radius: 50%;
+                    }
+                }
+            }
+            .song-info {
+                padding: 10px 0px;
+                margin: 10px 0px;
+                width: 100%;
+                height: 126px;
+                text-align: center;
+                // border: 1px solid red;
+                color: #fff;
+                .song-name{
+                    font-size: 24px;
+                    font-weight: bold;
+                    line-height: 36px;
+                    margin-bottom: 8px;
+                }
+            }
+            .pro {
+                display: flex;
+                .cur-time, 
+                .all-time{  
+                    width: 60px;
+                    height: 40px;
+                    // border: 1px solid black;
+                    color: #fff;
+                    text-align: center;
+                    line-height: 40px;
+                }
+                .pro-wrap {
+                    flex: 1;
+                    // border: 1px solid green;
+                    position: relative;
+                    overflow: hidden;
+                    .pro-bottom,
+                    .pro-top {
+                        width: 100%;
+                        height: 4px;
+                        position: absolute;
+                        top: calc(50% - 2px);
+                    }
+                    .pro-top {
+                        background-color: #fff;
+                        transform: translateX(-100%);
+                        position: relative;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        .slider{
+                            width: 6px;
+                            height: 6px;
+                            border-radius: 50%;
+                            background-color: #fff;
+                            position: absolute;
+                            right: -6px;
+                        }
+                    }
+                    .pro-bottom {
+                        background-color: rgba(255, 255, 255, 0.6);
+                    }
+                }
+            }
+            .control {
+                width: 100%;
+                height: 60px;
+                position: absolute;
+                bottom: 0;
+                // background-color: rgba(0, 0, 0, 0.2);
+                display: flex;
+                .btn {
+                    flex: 1;
+                    height: 100%;
+                    background-repeat: no-repeat;
+                    background-size: 20px;
+                    background-position: center center;
+                }
+                .like {
+                    //  &代表当前选择器父对象
+                    background-image: url(../images/icon-like.png);
+                    &.liking{
+                        background-image: url(../images/icon-like-solid.png);
+                    }
+                }
+                .prev {
+                    background-image: url(../images/icon-prev.png);
+                }
+                .play {
+                    background-image: url(../images/icon-play.png);
+                    &.playing{
+                        background-image: url(../images/icon-pause.png);
+                    }
+                }
+                .next {
+                    background-image: url(../images/icon-next.png);
+                }
+                .list {
+                    background-image: url(../images/icon-list.png);
+                }
+            }
+            .list-wrapper{
+                overflow: hidden;
+                width: 100%;
+                position: absolute;
+                bottom: 0px;
+                border-radius: 20px 20px 0 0;
+                background-color: #fff;
+                color: #000;
+                .list-header{
+                    width: 100%;
+                    height: 50px;
+                    text-align: center;
+                    line-height: 50px;
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+                .list-box {
+                    width: 100%;
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+                    font-size: 14px;
+                    padding: 5px 0;
+                    border-bottom: 1px solid #ddd;
+                    .list-index,
+                    .list-del{
+                        width: 50px;
+                        height: 50px;
+                        text-align: center;
+                        line-height: 50px;
+                    }
+                    .list-info {
+                        flex: 1;
+                        p:nth-of-type(1){
+                            font-size: 18px;
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+        }    
+    }
+
+}
+
