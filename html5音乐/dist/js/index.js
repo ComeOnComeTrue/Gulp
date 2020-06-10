@@ -226,5 +226,5 @@ function rotated(deg) {
     timer();
 }
 
-getData('../mock/data.json');
+getData('https://comeoncometrue.github.io/Gulp/html5music/dist/mock/data.json');
 
