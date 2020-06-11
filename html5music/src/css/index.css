@@ -88,12 +88,12 @@
   align-items: center;
 }
 * body .wrapper .pro .pro-wrap .pro-top .slider {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-color: #fff;
   position: absolute;
-  right: -6px;
+  right: -10px;
 }
 * body .wrapper .pro .pro-wrap .pro-bottom {
   background-color: rgba(255, 255, 255, 0.6);
@@ -141,6 +141,7 @@
   border-radius: 20px 20px 0 0;
   background-color: #fff;
   color: #000;
+  transition: bottom 2.5s;
 }
 * body .wrapper .list-wrapper .list-header {
   width: 100%;

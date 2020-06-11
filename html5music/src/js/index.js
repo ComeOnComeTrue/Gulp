@@ -10,7 +10,7 @@ let nowIndex = 0;
 let dataList; // 用于接受数据，
 let len; // 数据长度
 let control; // 用于接收构造函数
-let timer;
+let timerFn;
 let audio = root.audioManager; // 接收构造出的对象
 let duration = 0;
 let imgTimer = null;
@@ -109,18 +109,27 @@ function listEvent() {
     let itemList = dataList.filter(ele => ele.isLike == true);
     $('.list-wrapper').css({
         bottom: -y + 'px',
-        transition: `bottom ${itemList.length * 0.5}s`,
+        transitionDuration : `${itemList.length * 0.5}s`,
     });
 
     // list 操作
     $('.list').on('click', function (e) {
+        if (audio.status == "play") {
+            cancelAnimationFrame(imgTimer); // 清除动画 不清除要点击两次才有效果
+            y = $('.list-wrapper').offset().height;
+            $('.list-wrapper').css({
+                bottom: 0,
+            });
+            timerFn(); // 图片恢复旋转
+        }else{
+            y = $('.list-wrapper').offset().height;
+            $('.list-wrapper').css({
+                bottom: 0,
+            });
+        }
+
         isSong = dataList.filter(ele => ele.isLike == true).length
         root.list.renderList(dataList); // 渲染列表
-        y = $('.list-wrapper').offset().height;
-        $('.list-wrapper').css({
-            bottom: 0,
-        });
-
         // 是否有收藏有歌曲
         if (isSong > 0) {
             $('.addSong').css({ display: 'none' });
@@ -160,18 +169,26 @@ function listEvent() {
             if (isSong > 0) {
                 $('.addSong').css({ display: 'none' });
             } else {
-                console.log(2)
                 $('.addSong').css({ display: 'block' });
             }
         })
     });
 
     $('.list-header').on('click', function (e) {
-        y = $('.list-wrapper').offset().height;
+        if (audio.status == "play") {
+            cancelAnimationFrame(imgTimer); // 清除动画 不清除要点击两次才有效果
+            y = $('.list-wrapper').offset().height;
+            $('.list-wrapper').css({
+                bottom: -y + 'px',
+            });
+            timerFn(); // 图片恢复旋转
+        }else{
+            y = $('.list-wrapper').offset().height;
 
-        $('.list-wrapper').css({
-            bottom: -y + 'px',
-        });
+            $('.list-wrapper').css({
+                bottom: -y + 'px',
+            });
+        }
     });
 
 }
@@ -189,10 +206,30 @@ function bindTouchEvent() {
         if (per >= 0 && per < 1) { // 0 - 100% 之间执行
             root.pro.update(per);
         }
-
     }).on('touchend', function (e) {
-        let x = e.changedTouches[0].clientX - left; //当前移动的距离-》 距离页面视口左侧 - pro-bottom距离视口左侧
-        let per = x / width; // 距离百分比
+        proClickAndMove(e, 'touchend');
+    });
+    // 点击底部长条 歌曲进度就在触发点
+    $('.pro-bottom').on('click', function (e) { 
+        proClickAndMove(e, 'click');
+    });
+    // 点击上边长条 歌曲进度就在触发点
+    $('.pro-top').on('click', function (e) { 
+        proClickAndMove(e, 'click');
+    });
+    /**
+     * 歌曲长条跳转与滑动函数
+     * @param {事件源} e 
+     * @param {类型} type 
+     */
+    function proClickAndMove(e, type){
+        let x;
+        if(type == "click"){
+            x = e.clientX - left; //当前移动的距离-》 距离页面视口左侧 - pro-bottom距离视口左侧
+        }else{
+            x = e.changedTouches[0].clientX - left; //当前移动的距离-》 距离页面视口左侧 - pro-bottom距离视口左侧
+        }
+        let per = x / width; // 距离比例
         let curTime = per * duration;
         if (per >= 0 && per < 1) { // 0 - 100% 之间执行
             audio.playTo(curTime); // 跳转音乐时间，
@@ -202,7 +239,7 @@ function bindTouchEvent() {
             root.pro.start(per); // 继续播放时间
             $('.play').addClass('playing'); // 改变播放按钮状态
         }
-    })
+    }
 }
 // 播放完了自动下一首,播放结束事件
 $(audio.audio).on('ended', function () {
@@ -214,17 +251,17 @@ function rotated(deg) {
     cancelAnimationFrame(imgTimer);
     // let deg = 0;
     deg = +deg;
-    function timer() {
+    timerFn = function () {
         deg += 0.1;
         $('.img-box').attr('data-deg', deg);
         $('.img-box').css({
             'transform': ' rotateZ(' + deg + 'deg)',
             'transition': 'all 1s ease-out'
         })
-        imgTimer = requestAnimationFrame(timer); // 页面重绘触发，动画帧
+        imgTimer = requestAnimationFrame(timerFn); // 页面重绘触发，动画帧
     };
-    timer();
+    timerFn();
 }
 
-getData('https://comeoncometrue.github.io/Gulp/html5music/dist/mock/data.json');
+getData('../mock/data.json');
 
